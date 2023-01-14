@@ -4,16 +4,6 @@ const dictionary = require('./dictionary.json');
 
 const artistSearch=`https://ws.audioscrobbler.com/2.0/?method=artist.search&api_key=${process.env.API_KEY}&format=json`;
 
-/*
-function generateRandomCharacter() {
-    const result           = '';
-    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));  
-    return result;
-}
-*/
-
 function convertJsonToCsv(jsonData) {
         const results = [];
 
@@ -45,17 +35,11 @@ async function searchArtists (name, format) {
     let results = lastfmResponse.data.results.artistmatches.artist;
 
     if (results.length === 0) {
+
         const randomArtist = dictionary[Math.floor(Math.random() * dictionary.length)]
-
-        /*
-        const randomCharacter = generateRandomCharacter();
-        const randomRequestLink = artistSearch + randomCharacter + "&limit=3";
-        */
-
-        const randomRequestLink = artistSearch + `&artist=${randomArtist}` + "&limit=3";
+        const randomRequestLink = artistSearch + `&artist=${randomArtist}`;
         const randomResponse = await axios.get(randomRequestLink);
         const randomResults = randomResponse.data.results.artistmatches.artist;
-
         results = randomResults
     }
 
